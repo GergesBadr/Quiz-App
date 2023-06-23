@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Advanced quiz app with many features" />
+    <title>Quiz App</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="imgs/favicon-32x32.png">
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Fontawsome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              darkBlue: "#1f2847",
+              lightBlue: "#0c80ef",
+            },
+          },
+        },
+      };
+    </script>
+    <style type="text/tailwindcss">
+      @layer base {
+        body {
+          font-family: "Roboto", sans-serif;
+        }
+      }
+      @layer components {
+        .btn {
+          @apply bg-lightBlue hover:bg-lightBlue/80 mt-10 h-14 w-full rounded-lg text-xl tracking-wider text-white duration-200 disabled:cursor-not-allowed disabled:bg-gray-400;
+        }
+        .special-text {
+          @apply bg-gradient-to-tr from-orange-300 to-rose-300 bg-clip-text font-bold text-transparent;
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen bg-gray-200 sm:flex sm:items-center sm:justify-center"
+  >
+    <div
+      class="bg-darkBlue h-screen w-full rounded-none p-8 shadow-2xl sm:h-auto sm:max-w-md sm:rounded-lg "
+    >
+      <div id="set-settings" class="">
+        <h1 class="mb-10 text-center text-5xl font-bold text-white">
+          Quiz App
+        </h1>
+        <div>
+          <label for="questions-num" class="text-sm capitalize text-white"
+            >Numbers of questions:</label
+          >
+          <select
+            id="questions-num"
+            class="mb-5 mt-2 w-full rounded-lg p-2 capitalize"
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+        <div>
+          <label for="questions-cat" class="text-sm capitalize text-white"
+            >select category:</label
+          >
+          <select
+            id="questions-cat"
+            class="mb-5 mt-2 w-full rounded-lg p-2 capitalize"
+          >
+            <option value="">any category</option>
+            <option value="9">general knowledge</option>
+            <option value="10">books</option>
+            <option value="11">films</option>
+            <option value="12">music</option>
+            <option value="14">television</option>
+            <option value="15">video games</option>
+            <option value="17">science and nature</option>
+            <option value="18">computers</option>
+            <option value="21">sports</option>
+            <option value="22">geography</option>
+            <option value="23">history</option>
+            <option value="25">art</option>
+            <option value="27">animals</option>
+            <option value="28">vehicles</option>
+          </select>
+        </div>
+        <div>
+          <label for="questions-diff" class="text-sm capitalize text-white"
+            >select difficulty:</label
+          >
+          <select
+            id="questions-diff"
+            class="mb-5 mt-2 w-full rounded-lg p-2 capitalize"
+          >
+            <option value="">any difficulty</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+        <div>
+          <label for="questions-timer" class="text-sm capitalize text-white"
+            >select time per question:</label
+          >
+          <select
+            id="questions-timer"
+            class="mb-5 mt-2 w-full rounded-lg p-2 capitalize"
+          >
+            <option value="10">10 Seconds</option>
+            <option value="15">15 Seconds</option>
+            <option value="20">20 Seconds</option>
+            <option value="25">25 Seconds</option>
+            <option value="30">30 Seconds</option>
+            <option value="60">60 Seconds</option>
+          </select>
+        </div>
+        <button class="btn" id="start-quiz-btn">Start Quiz</button>
+      </div>
+      <div id="quiz" class="hidden">
+        <div
+          class="relative mb-10 flex items-center justify-between border-b-4 pb-2 text-white"
+        >
+          <div>
+            Question <span id="current-question-num"></span> /
+            <span class="total-questions-num special-text"></span>
+          </div>
+          <div class="">
+            Time:
+            <span class="special-text" id="timer-text"></span>
+          </div>
+          <div
+            id="progress"
+            class="absolute -bottom-[4px] left-0 h-[4px] w-full bg-red-500 duration-200"
+          ></div>
+        </div>
+        <div
+          id="question-text"
+          class="mb-6 overflow-auto text-3xl text-white"
+        ></div>
+        <ul>
+          <li class="mb-4 flex cursor-pointer items-center justify-between border-b-2 p-2 text-white duration-200 hover:bg-gray-400 focus:bg-gray-400">
+            <span class="answer-text flex-1"></span>
+            <i class="fa-regular text-xl duration-200"></i>
+          </li>
+          <li class="mb-4 flex cursor-pointer items-center justify-between border-b-2 p-2 text-white duration-200 hover:bg-gray-400 focus:bg-gray-400">
+            <span class="answer-text flex-1"></span>
+            <i class="fa-regular text-xl duration-200"></i>
+          </li>
+          <li class="mb-4 flex cursor-pointer items-center justify-between border-b-2 p-2 text-white duration-200 hover:bg-gray-400 focus:bg-gray-400">
+            <span class="answer-text flex-1"></span>
+            <i class="fa-regular text-xl duration-200"></i>
+          </li>
+          <li class="mb-4 flex cursor-pointer items-center justify-between border-b-2 p-2 text-white duration-200 hover:bg-gray-400 focus:bg-gray-400">
+            <span class="answer-text flex-1"></span>
+            <i class="fa-regular text-xl duration-200"></i>
+          </li>
+        </ul>
+        <button class="btn" id="submit-btn" disabled>Submit</button>
+        <button class="btn hidden" id="next-btn">Next</button>
+      </div>
+      <div id="result" class="hidden text-center text-white">
+        <h1 class="mb-10 text-4xl font-bold">Quiz Completed!</h1>
+        <p class="text-lg" id="quiz-completed-para">
+          You Got <span id="score-text" class="special-text"></span> /
+          <span class="total-questions-num"></span>
+          <span class="hidden mt-2 uppercase tracking-widest special-text" id="congrats">congratulations!</span>
+        </p>
+        <button class="btn" id="reset-btn">Play again</button>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
