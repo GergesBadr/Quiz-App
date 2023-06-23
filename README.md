@@ -1,5 +1,5 @@
 
-# Project Title
+# Advanced quiz app!
 
 recently, I have realized that you can be more familiar with JavaScript by creating advanced games, or some big apps (like this one). but these small tutorials which are everywhere on the internet won't help so much. So I decided to srart this advanced journey.
 
